@@ -8,9 +8,13 @@
     "csv-string": "^3.1.2",
     "fs": "0.0.1-security",
     "giantbomb": "^2.0.1",
+    "immutability-helper": "^2.6.4",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
+    "react-autocomplete": "^1.7.2",
     "react-chartjs-2": "^2.6.4",
+    "react-dnd": "^2.5.4",
+    "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
     "request-promise-native": "^1.0.5"
@@ -20,5 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-decorators": "^6.24.1"
   }
 }

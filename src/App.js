@@ -7,6 +7,7 @@ import { Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { BarChart } from './components/BarChart';
 import { DoughnutChart } from './components/DoughnutChart';
 import { List } from './components/List';
+import UserBallot from './components/Ballot/UserBallot';
 
 const scoring = [15, 12, 10, 8, 6, 5, 4, 3, 2, 1];
 
@@ -31,11 +32,12 @@ class App extends Component {
         {/* <DoughnutChart data={this.getData(disappointments)} /> */}
         {/* <DoughnutChart data={this.getData(oldGames)} /> */}
         {/* <DoughnutChart data={this.getData(anticipated)} /> */}
-        <List titles={titles} />
+        {/* <List titles={titles} />
         <List titles={surprises} />
         <List titles={disappointments} />
         <List titles={oldGames} />
-        <List titles={anticipated} />
+        <List titles={anticipated} /> */}
+        <UserBallot />
         
       </div>
     );
