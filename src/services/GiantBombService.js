@@ -13,6 +13,17 @@ class GiantBombService {
         }
         return this.api.games.search(game, callback);
     }
+
+    getGames(query) {
+        return fetch('http://localhost:4000/games/?query=' + query, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            return response.text();
+        });
+    }
 }
 
 export { GiantBombService as default }

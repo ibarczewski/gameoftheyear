@@ -7,12 +7,16 @@ import DragSource from 'react-dnd/lib/DragSource';
 import Autocomplete from 'react-autocomplete';
 import * as _ from 'lodash';
 import BallotService from '../../services/BallotService';
+import GiantBombService from '../../services/GiantBombService';
+import { setTimeout } from 'timers';
 
 const style = {
 	width: 400,
 }
 
 export class Container extends Component {
+    requestTimer = null;
+
 	constructor(props) {
 		super(props);
         this.moveCard = this.moveCard.bind(this);
@@ -25,14 +29,6 @@ export class Container extends Component {
             title: '',
             cards: [],
             autocompleteItems:[
-                { label: 'Nier' },
-                { label: 'Nier:Automata' },
-                { label: 'Nioh' },
-                { label: 'Super Mario Galaxy' },
-                { label: 'Super Mario Odyssey' },
-                { label: 'The Elder Scrolls III: Morrowind'},
-                { label: 'The Elder Scrolls IV: Oblivion'},
-                { label: 'The Elder Scrolls V: Skyrim'},
             ]
 		}
     }
@@ -79,6 +75,15 @@ export class Container extends Component {
         this.setState({
             title: event.target.value
         });
+        
+        let service = new GiantBombService();
+        clearTimeout(this.requestTimer);
+        let foo = event.target.value;
+        this.requestTimer = setTimeout(() => {
+            service.getGames(foo).then((result) => {
+            this.setState({autocompleteItems: JSON.parse(result)});
+            });
+        }, 500);
     }
 
     onSelectTitle(val) {
