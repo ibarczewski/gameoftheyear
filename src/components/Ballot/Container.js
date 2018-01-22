@@ -6,6 +6,7 @@ import Card from './Card'
 import DragSource from 'react-dnd/lib/DragSource';
 import Autocomplete from 'react-autocomplete';
 import * as _ from 'lodash';
+import BallotService from '../../services/BallotService';
 
 const style = {
 	width: 400,
@@ -43,6 +44,7 @@ export class Container extends Component {
     }
 
     cleanupCollections(newCards) {
+        let ballotService = new BallotService();
         let items = this.state.autocompleteItems;
         _.remove(items, (item) => {
             return item.label === this.state.title;
@@ -53,6 +55,8 @@ export class Container extends Component {
             autocompleteItems: items,
             title: ''
         });
+
+        ballotService.uploadBallot(1, newCards);
     }
 
 	moveCard(dragIndex, hoverIndex) {
@@ -65,7 +69,10 @@ export class Container extends Component {
 					$splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
 				},
 			}),
-		)
+        );
+        
+        let ballotService = new BallotService();
+        ballotService.uploadBallot(1, this.state.cards);
     }
     
     onTitleChange(event) {
