@@ -79,6 +79,25 @@
   animation: spin 2s linear infinite;
 }
 
+.search-container {
+  width: 80% !important;
+}
+
+.search-container div {
+  width: 100% !important;
+}
+
+.search-container input {
+  width: 100% !important;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+}
+
+button {
+  border-radius: 8px;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

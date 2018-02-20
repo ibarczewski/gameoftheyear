@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GiantBombService from '../services/GiantBombService';
-import * as _ from 'lodash';
 
 export class ListItem extends Component {
     constructor(props) {
@@ -13,7 +12,7 @@ export class ListItem extends Component {
 
     componentDidMount() {
         let gbService = new GiantBombService();
-        let coverArt = gbService.getCoverArt(this.props.title.name, (err, res, json) => {
+        gbService.getCoverArt(this.props.title.name, (err, res, json) => {
             try {
                 let results = json.results;
                 
@@ -37,7 +36,7 @@ export class ListItem extends Component {
                 <li className="flex-item">
                     <div className="place">{this.props.place}</div>
                     <div>{title.name}</div>
-                    <img src={this.state.data} />
+                    <img src={this.state.data} alt=''/>
                     <div>{title.score} points</div>
                     <div>{title.firstPlaceVotes} first place votes</div>
                 </li>

@@ -1,6 +1,4 @@
-
-
-class BallotService {
+class MiddlewareService {
     constructor() {
         this.apiUrl = 'http://localhost:4000';
     }
@@ -16,6 +14,17 @@ class BallotService {
             }
         });
     }
+
+    getGames(query) {
+        return fetch('http://localhost:4000/games/?query=' + query, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            return response.text();
+        });
+    }
 }
 
-export { BallotService as default }
+export { MiddlewareService as default }

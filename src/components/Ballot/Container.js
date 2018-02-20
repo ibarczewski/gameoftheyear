@@ -3,11 +3,9 @@ import update from 'immutability-helper'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Card from './Card'
-import DragSource from 'react-dnd/lib/DragSource';
 import Autocomplete from 'react-autocomplete';
 import * as _ from 'lodash';
-import BallotService from '../../services/BallotService';
-import GiantBombService from '../../services/GiantBombService';
+import MiddlewareService from '../../services/MiddlewareService';
 import { setTimeout } from 'timers';
 
 const style = {
@@ -25,6 +23,7 @@ export class Container extends Component {
         this.onSelectTitle = this.onSelectTitle.bind(this);
         this.shouldItemRender = this.shouldItemRender.bind(this);
         this.cleanupCollections = this.cleanupCollections.bind(this);
+        this.removeGame = this.removeGame.bind(this);
 		this.state = {
             title: '',
             cards: [],
@@ -40,7 +39,7 @@ export class Container extends Component {
     }
 
     cleanupCollections(newCards) {
-        let ballotService = new BallotService();
+        let middlewareService = new MiddlewareService();
         let items = this.state.autocompleteItems;
         _.remove(items, (item) => {
             return item.label === this.state.title;
@@ -52,7 +51,7 @@ export class Container extends Component {
             title: ''
         });
 
-        ballotService.uploadBallot(1, newCards);
+        middlewareService.uploadBallot(1, newCards);
     }
 
 	moveCard(dragIndex, hoverIndex) {
@@ -67,8 +66,8 @@ export class Container extends Component {
 			}),
         );
         
-        let ballotService = new BallotService();
-        ballotService.uploadBallot(1, this.state.cards);
+        let middlewareService = new MiddlewareService();
+        middlewareService.uploadBallot(1, this.state.cards);
     }
     
     onTitleChange(event) {
@@ -76,7 +75,7 @@ export class Container extends Component {
             title: event.target.value
         });
         
-        let service = new GiantBombService();
+        let service = new MiddlewareService();
         clearTimeout(this.requestTimer);
         let foo = event.target.value;
         this.requestTimer = setTimeout(() => {
@@ -96,18 +95,30 @@ export class Container extends Component {
         return val.label.toString().toLowerCase().includes(this.state.title.toLowerCase());
     }
 
+    removeGame(gameTitle){
+        let oldArray = this.state.cards;
+        _.remove(oldArray, (card) => {
+            return card.text === gameTitle;
+        });
+
+        this.setState({
+            cards: oldArray
+        });
+    }
+
 	render() {
 		const { cards } = this.state
         let disableButton = this.state.cards.length >= 15;
 		return (
-			<div style={style}>
+			<div className='search-container' style={style}>
 				{cards.map((card, i) => (
 					<Card
 						key={card.id}
 						index={i}
 						id={card.id}
 						text={card.text}
-						moveCard={this.moveCard}
+                        moveCard={this.moveCard}
+                        removeGame={this.removeGame}
 					/>
                 ))}
                 <Autocomplete

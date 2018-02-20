@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import GiantBombService from '../services/GiantBombService';
-import * as _ from 'lodash';
 
 export class TextListItem extends Component {
     

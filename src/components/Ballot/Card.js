@@ -5,9 +5,10 @@ import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
 const style = {
-    border: '1px dashed gray',
+    border: '1px solid gray',
     padding: '0.5rem 1rem',
     marginBottom: '.5rem',
+    borderRadius: '8px',
     backgroundColor: 'white',
     cursor: 'move',
 }
@@ -88,8 +89,16 @@ export class Card extends Component {
 		} = this.props
 		const opacity = isDragging ? 0 : 1
 
+        let element = (
+        <div style={{ ...style, opacity }}>
+            {text}
+            <button onClick={() => { this.props.removeGame(text); }}>X</button>
+        </div>
+        );
+
 		return connectDragSource(
-			connectDropTarget(<div style={{ ...style, opacity }}>{text}</div>),
+            element,
+			connectDropTarget(),
 		)
 	}
 }
