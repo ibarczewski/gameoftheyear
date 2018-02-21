@@ -7,14 +7,17 @@ import Autocomplete from 'react-autocomplete';
 import * as _ from 'lodash';
 import MiddlewareService from '../../services/MiddlewareService';
 import { setTimeout } from 'timers';
+import { last, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
+import { debounce } from 'rxjs/operator/debounce';
 
 const style = {
 	width: 400,
 }
 
-export class Container extends Component {
-    requestTimer = null;
+let searchSubject$;
 
+export class Container extends Component {
 	constructor(props) {
 		super(props);
         this.moveCard = this.moveCard.bind(this);
@@ -24,6 +27,7 @@ export class Container extends Component {
         this.shouldItemRender = this.shouldItemRender.bind(this);
         this.cleanupCollections = this.cleanupCollections.bind(this);
         this.removeGame = this.removeGame.bind(this);
+        this.middlewareService = new MiddlewareService();
 		this.state = {
             title: '',
             cards: [],
@@ -31,15 +35,23 @@ export class Container extends Component {
             ]
 		}
     }
+
+    componentDidMount() {
+        searchSubject$ = new Subject();
+        searchSubject$
+        .pipe(debounceTime(500))
+        .subscribe((searchString) => {
+            this.changeTitle(searchString);
+        });
+    }
     
     addCard() {
         let newCards = this.state.cards;
         newCards.push({id: this.state.cards.length + 1, text: this.state.title });
-        this.cleanupCollections(newCards)
+        this.cleanupCollections(newCards);
     }
 
     cleanupCollections(newCards) {
-        let middlewareService = new MiddlewareService();
         let items = this.state.autocompleteItems;
         _.remove(items, (item) => {
             return item.label === this.state.title;
@@ -51,7 +63,7 @@ export class Container extends Component {
             title: ''
         });
 
-        middlewareService.uploadBallot(1, newCards);
+        this.middlewareService.uploadBallot(1, newCards);
     }
 
 	moveCard(dragIndex, hoverIndex) {
@@ -66,23 +78,25 @@ export class Container extends Component {
 			}),
         );
         
-        let middlewareService = new MiddlewareService();
-        middlewareService.uploadBallot(1, this.state.cards);
+        this.middlewareService.uploadBallot(1, this.state.cards);
     }
     
     onTitleChange(event) {
+        let searchString = event.target.value;
         this.setState({
-            title: event.target.value
+            title: searchString
         });
+        searchSubject$.next(searchString);
+    }
+
+    changeTitle(searchString) {
         
-        let service = new MiddlewareService();
-        clearTimeout(this.requestTimer);
-        let foo = event.target.value;
-        this.requestTimer = setTimeout(() => {
-            service.getGames(foo).then((result) => {
-            this.setState({autocompleteItems: JSON.parse(result)});
-            });
-        }, 500);
+        this.middlewareService
+        .getGames(searchString)
+        .pipe(debounceTime(250), last())
+        .subscribe((result) => {
+            this.setState({autocompleteItems: result});
+        });
     }
 
     onSelectTitle(val) {
