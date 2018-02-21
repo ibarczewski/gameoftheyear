@@ -97,8 +97,7 @@ export class Card extends Component {
         );
 
 		return connectDragSource(
-            element,
-			connectDropTarget(),
+			connectDropTarget(element),
 		)
 	}
 }

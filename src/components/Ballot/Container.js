@@ -6,10 +6,8 @@ import Card from './Card'
 import Autocomplete from 'react-autocomplete';
 import * as _ from 'lodash';
 import MiddlewareService from '../../services/MiddlewareService';
-import { setTimeout } from 'timers';
 import { last, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
-import { debounce } from 'rxjs/operator/debounce';
 
 const style = {
 	width: 400,
