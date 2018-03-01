@@ -123,22 +123,12 @@ export class Container extends Component {
         let disableButton = this.state.cards.length >= 15;
 		return (
 			<div className='search-container' style={style}>
-				{cards.map((card, i) => (
-					<Card
-						key={card.id}
-						index={i}
-						id={card.id}
-						text={card.text}
-                        moveCard={this.moveCard}
-                        removeGame={this.removeGame}
-					/>
-                ))}
                 <Autocomplete
                     getItemValue={(item) => item.label}
                     items={this.state.autocompleteItems}
                     renderItem={(item, isHighlighted) =>
                         <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                        {item.label}
+                            {item.label}
                         </div>
                     }
                     value={this.state.title}
@@ -148,6 +138,17 @@ export class Container extends Component {
                     shouldItemRender={this.shouldItemRender}
                 />
                 <button onClick={this.addCard} disabled={disableButton}>Add</button>
+				{cards.map((card, i) => (
+					<Card
+						key={card.id}
+						index={i}
+						id={card.id}
+                        text={card.text}
+                        moveCard={this.moveCard}
+                        removeGame={this.removeGame}
+					/>
+                ))}
+                
 			</div>
             
 		)

@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 // import { DoughnutChart } from './components/DoughnutChart';
 // import { List } from './components/List';
 import UserBallot from './components/Ballot/UserBallot';
+import Login from './components/Login/Login';
 import { Switch, Link, Route } from 'react-router-dom';
 
 const scoring = [15, 12, 10, 8, 6, 5, 4, 3, 2, 1];
@@ -23,10 +24,12 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Balloter</h1>
-          <Link to='/'>Ballot</Link>
-          <Link to='/foo'>Ballot 2</Link>
+          <div  className='flex-container'>
+            <h1 className="App-title">Balloter</h1>
+              <div>
+                <Login />
+            </div>
+          </div>
         </header>
         {/* <BarChart data={this.getData(titles)} /> */}
         {/* <DoughnutChart data={this.getData(titles)} /> */}

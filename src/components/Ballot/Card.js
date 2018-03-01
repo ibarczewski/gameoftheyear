@@ -87,10 +87,12 @@ export class Card extends Component {
 			connectDragSource,
 			connectDropTarget,
 		} = this.props
-		const opacity = isDragging ? 0 : 1
-
+        const opacity = isDragging ? 0 : 1
+        // const transform = isDragging ? 'translate(120px, 50%)' : '';
+        // const transform = 'translate(120px, 50%)';
+        const backgroundColor = isDragging ? 'red' : '';
         let element = (
-        <div style={{ ...style, opacity }}>
+        <div style={{ ...style, opacity, backgroundColor }}>
             {text}
             <button onClick={() => { this.props.removeGame(text); }}>X</button>
         </div>
