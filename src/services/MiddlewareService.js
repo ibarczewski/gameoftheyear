@@ -6,7 +6,7 @@ class MiddlewareService {
     }
 
     uploadBallot(userId, games) {
-        let data = {userId: 1, ballot: games}
+        let data = {userId: userId, ballot: games}
 
         fetch(this.apiUrl + "/ballots", {
             method: "POST",

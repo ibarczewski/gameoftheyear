@@ -80,11 +80,14 @@
 }
 
 .search-container {
-  width: 80% !important;
+  width: 100% !important;
 }
 
-.search-container div {
-  width: 100% !important;
+.foo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-container input {

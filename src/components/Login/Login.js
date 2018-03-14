@@ -7,6 +7,7 @@ export default class Login extends Component {
         this.logIn = this.logIn.bind(this);
         this.logOut = this.logOut.bind(this);
         this.state = {
+            setUserId: props.onLogin,
             user: null
         };
     }
@@ -15,6 +16,7 @@ export default class Login extends Component {
         auth.onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user });
+                this.state.setUserId(user.uid);
             } 
         });
     }

@@ -14,6 +14,14 @@ import { Switch, Link, Route } from 'react-router-dom';
 const scoring = [15, 12, 10, 8, 6, 5, 4, 3, 2, 1];
 
 class App extends Component {
+  constructor () {
+    super();
+    this.state = {
+      userId: null
+    };
+    this.setUserId = this.setUserId.bind(this);
+  }
+
   render() {
     // let titles = this.getTitles();
     // let anticipated = this.getAnticipated();
@@ -27,7 +35,7 @@ class App extends Component {
           <div  className='flex-container'>
             <h1 className="App-title">Balloter</h1>
               <div>
-                <Login />
+                <Login onLogin={this.setUserId}/>
             </div>
           </div>
         </header>
@@ -43,7 +51,8 @@ class App extends Component {
         <List titles={oldGames} />
         <List titles={anticipated} /> */}
         <Switch>
-          <Route exact path='/' component={UserBallot}/>
+          <Route exact path='/'
+          render={(props) => <UserBallot {...props} userId={this.state.userId} />}/>
         </Switch>
         
       </div>
@@ -91,6 +100,10 @@ class App extends Component {
     let csvString = "";
 
     return this.tallyVotes(csvString);
+  }
+
+  setUserId(userId) {
+    this.setState({userId: userId});
   }
 
   tallyVotes(csvString) {

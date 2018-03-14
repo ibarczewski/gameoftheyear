@@ -14,3 +14,22 @@ body {
   flex-direction: row;
   justify-content: space-between !important;
 }
+
+.ballot-item {
+  width: 45% !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ballot-item img {
+  width: 7%;
+  height: 70%;
+}
+
+.ballot-item div {
+  font-family: sans-serif;
+  font-weight: 500;
+  font-size: x-large;
+}

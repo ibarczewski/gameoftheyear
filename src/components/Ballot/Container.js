@@ -30,8 +30,13 @@ export class Container extends Component {
             title: '',
             cards: [],
             autocompleteItems:[
-            ]
+            ],
+            userId: props.userId
 		}
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({userId: props.userId });
     }
 
     componentDidMount() {
@@ -45,7 +50,8 @@ export class Container extends Component {
     
     addCard() {
         let newCards = this.state.cards;
-        newCards.push({id: this.state.cards.length + 1, text: this.state.title });
+        let photo = _.filter(this.state.autocompleteItems, item => item.label === this.state.title)[0].icon;
+        newCards.push({id: this.state.cards.length + 1, text: this.state.title, photo: photo});
         this.cleanupCollections(newCards);
     }
 
@@ -61,7 +67,7 @@ export class Container extends Component {
             title: ''
         });
 
-        this.middlewareService.uploadBallot(1, newCards);
+        this.middlewareService.uploadBallot(this.state.userId, newCards);
     }
 
 	moveCard(dragIndex, hoverIndex) {
@@ -76,7 +82,7 @@ export class Container extends Component {
 			}),
         );
         
-        this.middlewareService.uploadBallot(1, this.state.cards);
+        this.middlewareService.uploadBallot(this.state.userId, this.state.cards);
     }
     
     onTitleChange(event) {
@@ -137,17 +143,21 @@ export class Container extends Component {
                     autoHighlight={true}
                     shouldItemRender={this.shouldItemRender}
                 />
-                <button onClick={this.addCard} disabled={disableButton}>Add</button>
-				{cards.map((card, i) => (
-					<Card
-						key={card.id}
-						index={i}
-						id={card.id}
-                        text={card.text}
-                        moveCard={this.moveCard}
-                        removeGame={this.removeGame}
-					/>
-                ))}
+                {/* <button onClick={this.addCard} disabled={disableButton}>Add</button> */}
+                <div className="foo">
+                    {cards.map((card, i) => (
+                        <Card
+                            key={card.id}
+                            index={i}
+                            id={card.id}
+                            text={card.text}
+                            photo={card.photo}
+                            moveCard={this.moveCard}
+                            removeGame={this.removeGame}
+                        />
+                    ))}
+                </div>
+				
                 
 			</div>
             

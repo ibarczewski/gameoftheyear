@@ -5,10 +5,10 @@ import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
 const style = {
-    border: '1px solid gray',
+    border: '1px solid gainsboro',
     padding: '0.5rem 1rem',
     marginBottom: '.5rem',
-    borderRadius: '8px',
+    borderRadius: '3px',
     backgroundColor: 'white',
     cursor: 'move',
 }
@@ -92,8 +92,9 @@ export class Card extends Component {
         // const transform = 'translate(120px, 50%)';
         const backgroundColor = isDragging ? 'red' : '';
         let element = (
-        <div style={{ ...style, opacity, backgroundColor }}>
-            {text}
+        <div className="ballot-item" style={{ ...style, opacity, backgroundColor }}>
+            <img src={this.props.photo} />
+            <div>{text}</div>
             <button onClick={() => { this.props.removeGame(text); }}>X</button>
         </div>
         );
